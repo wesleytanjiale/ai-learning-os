@@ -1,14 +1,16 @@
-# Your Project Name
+# AI Learning OS
 
-A starter template for the AI Engineering Buildcamp capstone. Replace this README with a description of your own project.
+An AI Learning Chief of Staff with a Knowledge Brain — built as my AI Engineering Buildcamp capstone.
 
 ## The Problem
 
-Describe the problem your project solves and who has it. One or two sentences.
+Ambitious self-learners and early-career professionals save large amounts of useful content across YouTube, notes apps, bookmarks, and articles, but struggle to turn that information into structured progress. Resources are scattered, priorities are unclear, and there is no system connecting saved content to a clear learning roadmap.
 
 ## What It Does
 
-Describe what the AI system does and a typical interaction. What does the user provide? What does the system return?
+The AI Learning OS ingests and organizes saved content (YouTube links, notes, articles) into a searchable personal knowledge base, generates a goal-based learning roadmap, ranks the most relevant resources, and returns a weekly action plan with recommended next steps.
+
+A typical interaction: the user provides their learning goal (e.g., "become job-ready in AI engineering in 4 months"), available study time, and a set of saved resources. They can then ask "What should I focus on this week?" and the system returns a personalized study plan, prioritized resources drawn from their own saved content, and progress tracking updates.
 
 ## Setup
 
