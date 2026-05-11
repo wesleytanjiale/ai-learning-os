@@ -302,6 +302,19 @@ HOW TO ANSWER:
 Stay grounded in the user's personal knowledge base. Do not recommend resources that are not saved there unless the user explicitly asks for outside suggestions.
 """.strip()
 
+# ── Agent result ───────────────────────────────────────────────────────────────
+
+from dataclasses import dataclass, field
+
+@dataclass
+class AgentResult:
+    answer: str
+    tool_calls: list = field(default_factory=list)
+
+    def __str__(self):
+        return self.answer
+
+
 # ── Agent loop ─────────────────────────────────────────────────────────────────
 
 def agent(user_question, model="gpt-4o-mini", max_iterations=10):
@@ -309,6 +322,8 @@ def agent(user_question, model="gpt-4o-mini", max_iterations=10):
         {"role": "system", "content": agent_instructions},
         {"role": "user", "content": user_question},
     ]
+    tool_calls_log = []
+
     for i in range(max_iterations):
         print(f"\n--- Iteration {i + 1} ---")
         response = openai_client.chat.completions.create(
@@ -320,7 +335,7 @@ def agent(user_question, model="gpt-4o-mini", max_iterations=10):
         msg = response.choices[0].message
         if not msg.tool_calls:
             print("--- Final answer ---")
-            return msg.content
+            return AgentResult(answer=msg.content, tool_calls=tool_calls_log)
         messages.append({
             "role": "assistant",
             "content": msg.content,
@@ -337,6 +352,7 @@ def agent(user_question, model="gpt-4o-mini", max_iterations=10):
             name = tc.function.name
             args = json.loads(tc.function.arguments)
             print(f"[TOOL] {name}({json.dumps(args)})")
+            tool_calls_log.append({"name": name, "args": args})
             result = call_tool(name, args)
             print(f"[RESULT] {str(result)[:200]}")
             messages.append({
@@ -344,7 +360,10 @@ def agent(user_question, model="gpt-4o-mini", max_iterations=10):
                 "tool_call_id": tc.id,
                 "content": json.dumps(result, ensure_ascii=False),
             })
-    return "Reached maximum iterations without a final answer."
+    return AgentResult(
+        answer="Reached maximum iterations without a final answer.",
+        tool_calls=tool_calls_log,
+    )
 
 # ── Run ────────────────────────────────────────────────────────────────────────
 
@@ -363,10 +382,11 @@ QUERIES = [
     ),
 ]
 
-for label, query in QUERIES:
-    print(f"\n{'='*70}")
-    print(label)
-    print(f"Q: {query}")
-    print("=" * 70)
-    answer = agent(query)
-    print(f"\n>>> ANSWER:\n{answer}\n")
+if __name__ == "__main__":
+    for label, query in QUERIES:
+        print(f"\n{'='*70}")
+        print(label)
+        print(f"Q: {query}")
+        print("=" * 70)
+        answer = agent(query)
+        print(f"\n>>> ANSWER:\n{answer}\n")
