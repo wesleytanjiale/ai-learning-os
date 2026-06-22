@@ -21,6 +21,9 @@ A typical session: you tell the agent to add a YouTube video to your queue. Late
 
 ## Screenshots
 
+> Screenshots coming soon. Run `make run` and open http://localhost:8501 to see the app live.
+
+<!-- TODO: replace placeholders below with actual screenshots
 | Chat — learning session with tool calls visible | Queue — staged resources with previews |
 |---|---|
 | ![Chat page](docs/screenshots/chat-learning.png) | ![Queue page](docs/screenshots/queue.png) |
@@ -28,6 +31,7 @@ A typical session: you tell the agent to add a YouTube video to your queue. Late
 | KB search with source citations | Monitoring dashboard |
 |---|---|
 | ![KB search](docs/screenshots/kb-search.png) | ![Monitoring](docs/screenshots/monitoring.png) |
+-->
 
 ## Architecture
 
