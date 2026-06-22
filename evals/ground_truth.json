@@ -1,0 +1,156 @@
+[
+  {
+    "id": "gt-01",
+    "question": "What do I know about attention mechanisms from my knowledge base?",
+    "expected_tools": ["search_knowledge_base"],
+    "criteria": [
+      "calls search_knowledge_base with a query related to attention",
+      "if relevant content is found, cites at least one source title; if no content found, clearly states the topic is not in the knowledge base yet",
+      "does not invent or hallucinate facts about attention mechanisms — either cites retrieved sources or admits the topic is missing"
+    ]
+  },
+  {
+    "id": "gt-02",
+    "question": "I have 3 hours this weekend. What should I focus on to get closer to being job-ready in AI engineering?",
+    "expected_tools": ["get_progress", "search_knowledge_base"],
+    "criteria": [
+      "calls get_progress before searching or recommending",
+      "calls search_knowledge_base to find relevant resources",
+      "time allocations in the plan sum to approximately 3 hours (2-4 hours acceptable)",
+      "the study plan is based on real topics available in the user's knowledge base or queue (AI engineering, deep learning, vector databases) — do not fail this criterion if resource titles are paraphrased, only fail if topics are completely fabricated"
+    ]
+  },
+  {
+    "id": "gt-03",
+    "question": "What topics do I have in my queue that I haven't studied yet?",
+    "expected_tools": ["browse_queue"],
+    "criteria": [
+      "calls browse_queue",
+      "lists actual queue items by title",
+      "does not recommend items from the knowledge base as if they were in the queue"
+    ]
+  },
+  {
+    "id": "gt-04",
+    "question": "Explain backpropagation based on what I've learned.",
+    "expected_tools": ["search_knowledge_base"],
+    "criteria": [
+      "calls search_knowledge_base with a query about backpropagation",
+      "if relevant content is found, cites the source title and/or URL; if no content found, this citation criterion is automatically satisfied",
+      "if no relevant content found in KB, clearly states that and suggests studying a queued resource — does not invent an explanation from general knowledge"
+    ]
+  },
+  {
+    "id": "gt-05",
+    "question": "What do I know about RAG from my knowledge base?",
+    "expected_tools": ["search_knowledge_base"],
+    "criteria": [
+      "calls search_knowledge_base",
+      "answer synthesizes across multiple retrieved chunks",
+      "each key claim cites its source"
+    ]
+  },
+  {
+    "id": "gt-06",
+    "question": "I want to learn about quantum computing. What do I have on that?",
+    "expected_tools": ["search_knowledge_base"],
+    "criteria": [
+      "calls search_knowledge_base",
+      "clearly states that quantum computing content is not in the knowledge base",
+      "does not hallucinate resources on quantum computing",
+      "suggests next steps — either adding a resource or studying a related queued item"
+    ]
+  },
+  {
+    "id": "gt-07",
+    "question": "How many concepts have I mastered so far?",
+    "expected_tools": ["get_progress"],
+    "criteria": [
+      "calls get_progress",
+      "reports the number of concepts mastered from the progress data",
+      "either lists specific concept names or offers to list them on request — reporting a count alone without any names is not sufficient"
+    ]
+  },
+  {
+    "id": "gt-08",
+    "question": "Based on what I've studied, how does AdamW differ from the standard Adam optimizer?",
+    "expected_tools": ["search_knowledge_base"],
+    "criteria": [
+      "calls search_knowledge_base with a query about AdamW or Adam optimizer",
+      "cites the source title and URL in the answer",
+      "explains the difference (weight decay decoupling) using content from the retrieved passages, not invented text"
+    ]
+  },
+  {
+    "id": "gt-09",
+    "question": "What topics have I studied so far, and how many resources are in my knowledge base vs my queue?",
+    "expected_tools": ["get_progress"],
+    "criteria": [
+      "calls get_progress",
+      "reports the number of resources in the knowledge base (kb_size) and queue (queue_depth)",
+      "lists or mentions the topics covered in the knowledge base"
+    ]
+  },
+  {
+    "id": "gt-12",
+    "question": "What AI engineering topics have I already covered in my knowledge base?",
+    "expected_tools": ["get_progress"],
+    "criteria": [
+      "calls get_progress",
+      "lists the specific topics covered in the knowledge base (from topics_covered field)",
+      "makes clear these are topics already learned (in the KB), not just queued for later"
+    ]
+  },
+  {
+    "id": "gt-13",
+    "question": "What do I know about vector databases and semantic search from my knowledge base?",
+    "expected_tools": ["search_knowledge_base"],
+    "criteria": [
+      "calls search_knowledge_base with a query about vector databases or semantic search",
+      "summarizes key concepts with at least one source citation (title and/or URL)",
+      "answer is grounded in retrieved passages — does not invent technical details not present in the results"
+    ]
+  },
+  {
+    "id": "gt-14",
+    "question": "What should I study first to understand how agents work?",
+    "expected_tools": ["get_progress", "search_knowledge_base"],
+    "criteria": [
+      "calls get_progress to check what's already completed",
+      "calls search_knowledge_base or browse_queue for agent-related resources",
+      "recommends a specific resource and justifies the recommendation",
+      "does not recommend already-completed resources"
+    ]
+  },
+  {
+    "id": "gt-15",
+    "question": "Let's go through the first item in my queue together.",
+    "expected_tools": ["browse_queue", "load_for_learning"],
+    "criteria": [
+      "calls browse_queue to find the first item",
+      "calls load_for_learning with the correct title",
+      "begins explaining key concepts from the loaded content",
+      "does not immediately call consolidate_to_kb without user confirmation"
+    ]
+  },
+  {
+    "id": "gt-10",
+    "question": "Add this YouTube video to my queue: https://www.youtube.com/watch?v=dQw4w9WgXcQ with topic=general and difficulty=beginner",
+    "expected_tools": ["add_to_queue"],
+    "criteria": [
+      "calls add_to_queue with the provided URL, topic, and difficulty",
+      "confirms the outcome — resource was added, was already in queue, or an error occurred — any of these is acceptable",
+      "does not call consolidate_to_kb automatically"
+    ]
+  },
+  {
+    "id": "gt-11",
+    "question": "I just finished studying the first resource in my queue. Add it to my knowledge base.",
+    "expected_tools": ["browse_queue", "consolidate_to_kb"],
+    "criteria": [
+      "calls browse_queue to identify the first resource",
+      "calls consolidate_to_kb with the correct title or URL",
+      "confirms the resource was added to the KB with number of chunks created"
+    ]
+  }
+]
